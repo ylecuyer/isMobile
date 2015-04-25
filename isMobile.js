@@ -14,6 +14,7 @@
     var apple_phone         = /iPhone/i,
         apple_ipod          = /iPod/i,
         apple_tablet        = /iPad/i,
+        googlebot           = /Googlebot/i,
         android_phone       = /(?=.*\bAndroid\b)(?=.*\bMobile\b)/i, // Match 'Android' AND 'Mobile'
         android_tablet      = /Android/i,
         windows_phone       = /IEMobile/i,
@@ -55,10 +56,10 @@
         var ua = userAgent || navigator.userAgent;
 
         this.apple = {
-            phone:  match(apple_phone, ua),
-            ipod:   match(apple_ipod, ua),
-            tablet: match(apple_tablet, ua),
-            device: match(apple_phone, ua) || match(apple_ipod, ua) || match(apple_tablet, ua)
+            phone:  match(apple_phone, ua) && !match(googlebot, ua),
+            ipod:   match(apple_ipod, ua) && !match(googlebot, ua),
+            tablet: match(apple_tablet, ua) && !match(googlebot, ua),
+            device: (match(apple_phone, ua) || match(apple_ipod, ua) || match(apple_tablet, ua)) && !match(googlebot, ua)
         };
         this.android = {
             phone:  match(android_phone, ua),
